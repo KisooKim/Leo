@@ -5,6 +5,8 @@ final class QuickAddWindow: NSPanel {
     var onSave: ((Action) -> Void)?
     var onCancel: (() -> Void)?
 
+    private var hosting: NSHostingController<QuickAddView>!
+
     init() {
         super.init(
             contentRect: NSRect(x: 0, y: 0, width: 480, height: 400),
@@ -17,23 +19,28 @@ final class QuickAddWindow: NSPanel {
         self.level = .floating
         self.isReleasedWhenClosed = false
 
-        var capturedSelf: QuickAddWindow?
-        let view = QuickAddView(
-            onSave: { action in
-                capturedSelf?.onSave?(action)
-                capturedSelf?.close()
-            },
-            onCancel: {
-                capturedSelf?.onCancel?()
-                capturedSelf?.close()
-            }
-        )
-        let hosting = NSHostingController(rootView: view)
+        // Create the hosting controller with placeholder closures first,
+        // then rewire the rootView with weak-self closures after `self`
+        // is fully constructed. This avoids the retain cycle caused by
+        // capturing `self` (or a local mutable box) inside the init closure.
+        hosting = NSHostingController(rootView: QuickAddView(
+            onSave: { _ in },
+            onCancel: { }
+        ))
         hosting.view.frame = NSRect(x: 0, y: 0, width: 480, height: 400)
         self.contentViewController = hosting
-        capturedSelf = self
-
         self.center()
+
+        hosting.rootView = QuickAddView(
+            onSave: { [weak self] action in
+                self?.onSave?(action)
+                self?.close()
+            },
+            onCancel: { [weak self] in
+                self?.onCancel?()
+                self?.close()
+            }
+        )
     }
 
     override var canBecomeKey: Bool { true }

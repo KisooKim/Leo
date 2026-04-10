@@ -48,10 +48,29 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func loadConfig(showWarnings: Bool) {
         do {
+            // Capture mtime before and after the read to detect a concurrent edit
+            // during load. If they differ, retry once; on second mismatch give up
+            // with the first-read state (best we can do without locking).
+            let beforeMTime = try configWriter.currentMTime()
             let result = try configLoader.load()
-            searchEngine = SearchEngine(actions: result.actions + builtInActions())
+            let afterMTime = try configWriter.currentMTime()
+
+            if beforeMTime != afterMTime {
+                // File was written during load. Reload once more to get a consistent view.
+                let retryResult = try configLoader.load()
+                let retryMTime = try configWriter.currentMTime()
+                searchEngine = SearchEngine(actions: builtInActions() + retryResult.actions)
+                searchVC.searchEngine = searchEngine
+                lastLoadedMTime = retryMTime
+                if showWarnings, !retryResult.warnings.isEmpty {
+                    presentWarnings(retryResult.warnings)
+                }
+                return
+            }
+
+            searchEngine = SearchEngine(actions: builtInActions() + result.actions)
             searchVC.searchEngine = searchEngine
-            lastLoadedMTime = try configWriter.currentMTime()
+            lastLoadedMTime = afterMTime
             if showWarnings, !result.warnings.isEmpty {
                 presentWarnings(result.warnings)
             }
