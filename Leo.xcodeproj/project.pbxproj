@@ -274,7 +274,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.kisoo.LeoTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kisoo.leo.tests;
 				SDKROOT = macosx;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Leo.app/Contents/MacOS/Leo";
 			};
@@ -310,7 +310,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.kisoo.LeoTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kisoo.leo.tests;
 				SDKROOT = macosx;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Leo.app/Contents/MacOS/Leo";
 			};
