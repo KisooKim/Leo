@@ -1,0 +1,21 @@
+# Xcode
+build/
+DerivedData/
+*.xcuserstate
+xcuserdata/
+*.xcscmblueprint
+*.xccheckout
+*.moved-aside
+
+# macOS
+.DS_Store
+
+# SPM
+.swiftpm/
+Packages/
+Package.resolved
+
+# Secrets
+.env
+*.p12
+ExportOptions.plist
