@@ -88,6 +88,28 @@ final class ConfigWriterTests: XCTestCase {
         XCTAssertTrue(actions.isEmpty)
     }
 
+    func test_appendToCorruptedFile_throws() throws {
+        // Write a file that's valid JSON but not a valid Envelope
+        try """
+        {"version": "2.0", "items": []}
+        """.data(using: .utf8)!.write(to: configURL)
+        try FileManager.default.setAttributes([.posixPermissions: 0o600], ofItemAtPath: configURL.path)
+
+        let writer = ConfigWriter(fileURL: configURL)
+        let newAction = Action(keyword: "x", title: "X", type: .openFolder,
+                               path: "~/", command: nil,
+                               urlTemplate: nil, fallbackURL: nil)
+
+        // Before the fix, this would silently succeed and destroy the file's content.
+        // After the fix, it throws, leaving the original file intact.
+        XCTAssertThrowsError(try writer.append(newAction, expectedMTime: try writer.currentMTime()))
+
+        // The original file should be unchanged.
+        let raw = try String(contentsOf: configURL)
+        XCTAssertTrue(raw.contains("\"version\""))
+        XCTAssertTrue(raw.contains("\"2.0\""))
+    }
+
     func test_webSearch_roundtrip() throws {
         // Critical edge case: fallbackURL must survive a write+read cycle.
         let writer = ConfigWriter(fileURL: configURL)

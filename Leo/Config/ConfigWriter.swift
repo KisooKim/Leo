@@ -2,7 +2,6 @@ import Foundation
 
 enum ConfigWriterError: Error, Equatable {
     case mtimeConflict
-    case encodingFailed
 }
 
 final class ConfigWriter {
@@ -52,9 +51,8 @@ final class ConfigWriter {
         var existing: [Action] = []
         if fileManager.fileExists(atPath: fileURL.path) {
             let data = try Data(contentsOf: fileURL)
-            if let envelope = try? decoder.decode(Envelope.self, from: data) {
-                existing = envelope.actions
-            }
+            let envelope = try decoder.decode(Envelope.self, from: data)
+            existing = envelope.actions
         }
         existing.append(action)
 
