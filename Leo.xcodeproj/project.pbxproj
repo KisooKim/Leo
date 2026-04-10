@@ -25,8 +25,10 @@
 		BA4ED5E83D9AAB2BEAD938BC /* ActionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A98C1BCEB60DE884E57FE7 /* ActionTests.swift */; };
 		C698F5CCB9F4A50DDB2EE341 /* HotKeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E73A88BF77B1EF0968528CF /* HotKeyManager.swift */; };
 		C6E747D9408034D85437CC85 /* SearchWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7578D01880733CBF7552327 /* SearchWindow.swift */; };
+		CF76A4180E1A07F15E114F66 /* QuickAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953F85693569A21A8E2522F2 /* QuickAddView.swift */; };
 		DFD6A12202FE5D09D0736615 /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD0E42E13A3382ECDFA757A /* SearchResult.swift */; };
 		F22E53C0DEDAEA86B48CACB4 /* ConfigWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927C0C29B4A68F84B83D001D /* ConfigWriter.swift */; };
+		FA91B9B1DB17D27AD75CA0D1 /* QuickAddWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEE35E8D35BE1A00359EE869 /* QuickAddWindow.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +53,7 @@
 		6B48EC9D98C80D8F978F2F0A /* LeoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LeoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B3CDFC03B9EBBAB10E10A48 /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		927C0C29B4A68F84B83D001D /* ConfigWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigWriter.swift; sourceTree = "<group>"; };
+		953F85693569A21A8E2522F2 /* QuickAddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAddView.swift; sourceTree = "<group>"; };
 		9638B6D6946F399E5A49AC61 /* ConfigWriterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigWriterTests.swift; sourceTree = "<group>"; };
 		9B89F00E16FD6E844CC70D5A /* LeoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeoApp.swift; sourceTree = "<group>"; };
 		A7A98C1BCEB60DE884E57FE7 /* ActionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionTests.swift; sourceTree = "<group>"; };
@@ -61,6 +64,7 @@
 		C4059E2BBEF1821AA52D0A3E /* SearchEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchEngine.swift; sourceTree = "<group>"; };
 		D1A1F7D0633E46F1B7A239E2 /* Leo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Leo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D63648508AEA2ACB0F7BCDDD /* SearchEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchEngineTests.swift; sourceTree = "<group>"; };
+		DEE35E8D35BE1A00359EE869 /* QuickAddWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAddWindow.swift; sourceTree = "<group>"; };
 		EC3A9241B5D63D068707EF09 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EEBD744E7875E5726FEA063D /* MenuBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -153,6 +157,8 @@
 		D55E1FE083D46E9AFF2AA5B9 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				953F85693569A21A8E2522F2 /* QuickAddView.swift */,
+				DEE35E8D35BE1A00359EE869 /* QuickAddWindow.swift */,
 				AD929C7F19A991710097AAC0 /* ResultCellView.swift */,
 				5E6B2507A8233D4DF03FF117 /* SearchViewController.swift */,
 				B7578D01880733CBF7552327 /* SearchWindow.swift */,
@@ -273,6 +279,8 @@
 				801041A923BEA9B944E9EEB7 /* LeoApp.swift in Sources */,
 				51B1191B7F843D7F1C9FDB1D /* LoginItemManager.swift in Sources */,
 				5DD8AE5D505A2BCA1C706F92 /* MenuBarController.swift in Sources */,
+				CF76A4180E1A07F15E114F66 /* QuickAddView.swift in Sources */,
+				FA91B9B1DB17D27AD75CA0D1 /* QuickAddWindow.swift in Sources */,
 				4514E5C97EECF84A261E6E63 /* ResultCellView.swift in Sources */,
 				6E33D81E0E908BAC06B92877 /* SearchEngine.swift in Sources */,
 				DFD6A12202FE5D09D0736615 /* SearchResult.swift in Sources */,
