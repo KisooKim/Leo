@@ -15,51 +15,95 @@ struct QuickAddView: View {
     var onCancel: () -> Void
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text("Add New Action").font(.title2).bold()
+        VStack(alignment: .leading, spacing: 16) {
+            Text("Add New Action")
+                .font(.title2)
+                .fontWeight(.bold)
 
-            Form {
-                TextField("Keyword", text: $keyword)
-                TextField("Title", text: $title)
-
-                Picker("Type", selection: $type) {
-                    Text("Folder").tag(ActionType.openFolder)
-                    Text("File").tag(ActionType.openFile)
-                    Text("Bash").tag(ActionType.runBash)
-                    Text("Web Search").tag(ActionType.webSearch)
+            VStack(alignment: .leading, spacing: 12) {
+                fieldRow(label: "Keyword") {
+                    TextField("e.g. dl", text: $keyword)
+                        .textFieldStyle(.roundedBorder)
                 }
 
-                switch type {
-                case .openFolder, .openFile:
-                    HStack {
-                        TextField("Path", text: $path)
-                        Button("Browse…") { browse() }
+                fieldRow(label: "Title") {
+                    TextField("e.g. Open Downloads", text: $title)
+                        .textFieldStyle(.roundedBorder)
+                }
+
+                fieldRow(label: "Type") {
+                    Picker("", selection: $type) {
+                        Text("Folder").tag(ActionType.openFolder)
+                        Text("File").tag(ActionType.openFile)
+                        Text("Bash").tag(ActionType.runBash)
+                        Text("Web Search").tag(ActionType.webSearch)
                     }
-                case .runBash:
-                    TextField("Command", text: $command, axis: .vertical)
-                        .lineLimit(3...6)
-                case .webSearch:
-                    TextField("URL Template (use {query})", text: $urlTemplate,
-                              prompt: Text("https://example.com/search?q={query}"))
-                    TextField("Fallback URL (optional)", text: $fallbackURL)
+                    .labelsHidden()
+                    .pickerStyle(.menu)
                 }
+
+                typeSpecificFields()
             }
-            .formStyle(.grouped)
 
             if let errorMessage {
-                Text(errorMessage).foregroundStyle(.red).font(.callout)
+                Text(errorMessage)
+                    .foregroundStyle(.red)
+                    .font(.callout)
+                    .fixedSize(horizontal: false, vertical: true)
             }
+
+            Spacer(minLength: 0)
 
             HStack {
                 Spacer()
-                Button("Cancel", role: .cancel) { onCancel() }
+                Button("Cancel") { onCancel() }
                     .keyboardShortcut(.escape)
                 Button("Save") { attemptSave() }
                     .keyboardShortcut(.defaultAction)
             }
         }
         .padding(20)
-        .frame(width: 460)
+        .frame(width: 480, height: 400, alignment: .topLeading)
+    }
+
+    @ViewBuilder
+    private func fieldRow<Content: View>(label: String, @ViewBuilder content: () -> Content) -> some View {
+        HStack(alignment: .center, spacing: 12) {
+            Text(label)
+                .frame(width: 80, alignment: .trailing)
+                .foregroundStyle(.secondary)
+            content()
+                .frame(maxWidth: .infinity, alignment: .leading)
+        }
+    }
+
+    @ViewBuilder
+    private func typeSpecificFields() -> some View {
+        switch type {
+        case .openFolder, .openFile:
+            fieldRow(label: "Path") {
+                HStack(spacing: 8) {
+                    TextField("~/Downloads", text: $path)
+                        .textFieldStyle(.roundedBorder)
+                    Button("Browse…") { browse() }
+                }
+            }
+        case .runBash:
+            fieldRow(label: "Command") {
+                TextField("echo hello", text: $command, axis: .vertical)
+                    .textFieldStyle(.roundedBorder)
+                    .lineLimit(3...6)
+            }
+        case .webSearch:
+            fieldRow(label: "URL Template") {
+                TextField("https://example.com/?q={query}", text: $urlTemplate)
+                    .textFieldStyle(.roundedBorder)
+            }
+            fieldRow(label: "Fallback URL") {
+                TextField("https://example.com (optional)", text: $fallbackURL)
+                    .textFieldStyle(.roundedBorder)
+            }
+        }
     }
 
     private func browse() {
@@ -87,7 +131,7 @@ struct QuickAddView: View {
             errorMessage = nil
             onSave(action)
         } catch {
-            errorMessage = String(describing: error)
+            errorMessage = "Invalid: \(error)"
         }
     }
 }

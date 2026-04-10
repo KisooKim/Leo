@@ -7,29 +7,35 @@ final class QuickAddWindow: NSPanel {
 
     init() {
         super.init(
-            contentRect: NSRect(x: 0, y: 0, width: 460, height: 380),
-            styleMask: [.titled, .closable, .nonactivatingPanel],
+            contentRect: NSRect(x: 0, y: 0, width: 480, height: 400),
+            styleMask: [.titled, .closable],
             backing: .buffered,
             defer: false
         )
         self.title = "Add Action"
         self.isFloatingPanel = true
         self.level = .floating
-        self.center()
+        self.isReleasedWhenClosed = false
 
+        var capturedSelf: QuickAddWindow?
         let view = QuickAddView(
-            onSave: { [weak self] action in
-                self?.onSave?(action)
-                self?.close()
+            onSave: { action in
+                capturedSelf?.onSave?(action)
+                capturedSelf?.close()
             },
-            onCancel: { [weak self] in
-                self?.onCancel?()
-                self?.close()
+            onCancel: {
+                capturedSelf?.onCancel?()
+                capturedSelf?.close()
             }
         )
         let hosting = NSHostingController(rootView: view)
+        hosting.view.frame = NSRect(x: 0, y: 0, width: 480, height: 400)
         self.contentViewController = hosting
+        capturedSelf = self
+
+        self.center()
     }
 
     override var canBecomeKey: Bool { true }
+    override var canBecomeMain: Bool { true }
 }
