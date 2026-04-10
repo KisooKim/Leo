@@ -41,14 +41,23 @@ extension Action {
 
         switch type {
         case .openFolder, .openFile:
-            guard let path, !path.isEmpty else { throw ActionValidationError.missingPath }
+            // Trim path to reject whitespace-only configs; the tilde-expansion and
+            // file access at execution time will accept trimmed paths as-is.
+            guard let trimmed = path?.trimmingCharacters(in: .whitespacesAndNewlines),
+                  !trimmed.isEmpty else {
+                throw ActionValidationError.missingPath
+            }
         case .runBash:
-            guard let command, !command.isEmpty else { throw ActionValidationError.missingCommand }
+            guard let trimmed = command?.trimmingCharacters(in: .whitespacesAndNewlines),
+                  !trimmed.isEmpty else {
+                throw ActionValidationError.missingCommand
+            }
         case .webSearch:
-            guard let template = urlTemplate, !template.isEmpty else {
+            guard let trimmed = urlTemplate?.trimmingCharacters(in: .whitespacesAndNewlines),
+                  !trimmed.isEmpty else {
                 throw ActionValidationError.missingURLTemplate
             }
-            guard template.contains("{query}") else {
+            guard trimmed.contains("{query}") else {
                 throw ActionValidationError.missingQueryPlaceholder
             }
         }

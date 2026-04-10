@@ -18,6 +18,7 @@ final class ActionTests: XCTestCase {
         XCTAssertEqual(action.path, "~/Downloads")
         XCTAssertNil(action.command)
         XCTAssertNil(action.urlTemplate)
+        XCTAssertNil(action.fallbackURL)
     }
 
     func test_decode_runBash() throws {
@@ -76,6 +77,30 @@ final class ActionTests: XCTestCase {
                             path: "~/", command: nil, urlTemplate: nil, fallbackURL: nil)
         XCTAssertThrowsError(try action.validate()) { error in
             XCTAssertEqual(error as? ActionValidationError, .emptyKeyword)
+        }
+    }
+
+    func test_validate_runBash_nilCommand_throws() {
+        let action = Action(keyword: "b", title: "B", type: .runBash,
+                            path: nil, command: nil, urlTemplate: nil, fallbackURL: nil)
+        XCTAssertThrowsError(try action.validate()) { error in
+            XCTAssertEqual(error as? ActionValidationError, .missingCommand)
+        }
+    }
+
+    func test_validate_openFolder_emptyPath_throws() {
+        let action = Action(keyword: "dl", title: "Downloads", type: .openFolder,
+                            path: "", command: nil, urlTemplate: nil, fallbackURL: nil)
+        XCTAssertThrowsError(try action.validate()) { error in
+            XCTAssertEqual(error as? ActionValidationError, .missingPath)
+        }
+    }
+
+    func test_validate_whitespaceOnlyPath_throws() {
+        let action = Action(keyword: "dl", title: "D", type: .openFolder,
+                            path: "   ", command: nil, urlTemplate: nil, fallbackURL: nil)
+        XCTAssertThrowsError(try action.validate()) { error in
+            XCTAssertEqual(error as? ActionValidationError, .missingPath)
         }
     }
 
