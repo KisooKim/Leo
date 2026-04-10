@@ -10,19 +10,19 @@ final class SearchEngine {
     }
 
     func search(_ rawQuery: String) -> [SearchResult] {
-        let query = rawQuery.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !query.isEmpty else { return [] }
+        // Strip leading whitespace but preserve trailing space — the trailing space
+        // is how the user signals "I'm about to type an argument".
+        let leadingStripped = rawQuery.drop(while: { $0 == " " || $0 == "\t" })
+        let trimmed = String(leadingStripped).trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { return [] }
 
-        // Keep the raw (un-trimmed) query around so a trailing space still triggers
-        // argument mode with an empty argument. But we only care about the first
-        // space in the *raw* input.
-        if let spaceIndex = rawQuery.firstIndex(of: " ") {
-            let firstWord = String(rawQuery[..<spaceIndex]).lowercased()
-            let rest = String(rawQuery[rawQuery.index(after: spaceIndex)...])
+        if let spaceIndex = leadingStripped.firstIndex(of: " ") {
+            let firstWord = String(leadingStripped[..<spaceIndex]).lowercased()
+            let rest = String(leadingStripped[leadingStripped.index(after: spaceIndex)...])
             return argumentModeResults(firstWord: firstWord, rest: rest)
         }
 
-        return plainResults(query: query.lowercased())
+        return plainResults(query: trimmed.lowercased())
     }
 
     // MARK: - Plain mode

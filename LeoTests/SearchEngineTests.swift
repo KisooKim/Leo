@@ -64,7 +64,7 @@ final class SearchEngineTests: XCTestCase {
 
     // MARK: - Argument mode
 
-    func test_querWithSpace_entersArgumentMode_forWebSearch() {
+    func test_queryWithSpace_entersArgumentMode_forWebSearch() {
         let results = engine(amazon, google, dl).search("amazon desk")
         XCTAssertEqual(results.count, 1)
         XCTAssertEqual(results[0].action.keyword, "amazon")
@@ -96,5 +96,49 @@ final class SearchEngineTests: XCTestCase {
         XCTAssertEqual(results.count, 1)
         XCTAssertEqual(results[0].argument, "")
         XCTAssertEqual(results[0].displayTitle, "Search Amazon for ''")
+    }
+
+    // MARK: - Leading whitespace
+
+    func test_leadingWhitespace_isStripped_beforeArgumentMode() {
+        let results = engine(amazon).search("  amazon desk")
+        XCTAssertEqual(results.count, 1)
+        XCTAssertEqual(results[0].argument, "desk")
+    }
+
+    func test_leadingWhitespace_trailingSpace_entersArgumentMode() {
+        let results = engine(amazon).search("  amazon ")
+        XCTAssertEqual(results.count, 1)
+        XCTAssertEqual(results[0].argument, "")
+    }
+
+    // MARK: - Duplicate keywords
+
+    func test_duplicateKeywords_inPlainMode_allReturned() {
+        let gmail = Action(keyword: "g", title: "Gmail", type: .openFolder,
+                           path: "~/Gmail", command: nil,
+                           urlTemplate: nil, fallbackURL: nil)
+        let google2 = Action(keyword: "g", title: "Google Drive", type: .openFolder,
+                             path: "~/GoogleDrive", command: nil,
+                             urlTemplate: nil, fallbackURL: nil)
+        let results = engine(gmail, google2).search("g")
+        XCTAssertEqual(results.count, 2)
+        let titles = Set(results.map(\.action.title))
+        XCTAssertEqual(titles, ["Gmail", "Google Drive"])
+    }
+
+    func test_duplicateKeywords_inArgumentMode_allReturned() {
+        let amzUS = Action(keyword: "amz", title: "Amazon US", type: .webSearch,
+                           path: nil, command: nil,
+                           urlTemplate: "https://amazon.com/s?k={query}",
+                           fallbackURL: nil)
+        let amzJP = Action(keyword: "amz", title: "Amazon JP", type: .webSearch,
+                           path: nil, command: nil,
+                           urlTemplate: "https://amazon.co.jp/s?k={query}",
+                           fallbackURL: nil)
+        let results = engine(amzUS, amzJP).search("amz lamp")
+        XCTAssertEqual(results.count, 2)
+        let titles = Set(results.map(\.action.title))
+        XCTAssertEqual(titles, ["Amazon US", "Amazon JP"])
     }
 }
