@@ -29,6 +29,8 @@ targets:
         NSHumanReadableCopyright: "Copyright © 2026 Kisoo Kim"
     entitlements:
       path: Leo/Leo.entitlements
+      properties:
+        com.apple.security.app-sandbox: false
     dependencies:
       - package: HotKey
     settings:
