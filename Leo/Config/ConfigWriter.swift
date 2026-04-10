@@ -67,7 +67,12 @@ final class ConfigWriter {
             .appendingPathComponent(".\(fileURL.lastPathComponent).tmp.\(UUID().uuidString)")
 
         try data.write(to: tempURL, options: .atomic)
-        _ = try? fileManager.replaceItemAt(fileURL, withItemAt: tempURL)
+        do {
+            _ = try fileManager.replaceItemAt(fileURL, withItemAt: tempURL)
+        } catch {
+            try? fileManager.removeItem(at: tempURL)
+            throw error
+        }
 
         // 5. Apply 0600 permissions
         try fileManager.setAttributes([.posixPermissions: 0o600],
