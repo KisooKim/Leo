@@ -87,4 +87,29 @@ final class ConfigLoaderTests: XCTestCase {
         let result = try loader.load()
         XCTAssertTrue(result.warnings.isEmpty)
     }
+
+    func test_rootWithoutActionsKey_returnsEmpty() throws {
+        try write("{}")
+        let loader = ConfigLoader(fileURL: configURL)
+        let result = try loader.load()
+        XCTAssertTrue(result.actions.isEmpty)
+        XCTAssertTrue(result.warnings.isEmpty)
+    }
+
+    func test_unknownActionType_isDroppedWithWarning() throws {
+        try write("""
+        {"actions": [
+          {"keyword": "good", "title": "Good", "type": "open_folder", "path": "~/"},
+          {"keyword": "mystery", "title": "Mystery", "type": "fly_to_moon"}
+        ]}
+        """)
+        let loader = ConfigLoader(fileURL: configURL)
+        let result = try loader.load()
+        XCTAssertEqual(result.actions.count, 1)
+        XCTAssertEqual(result.actions[0].keyword, "good")
+        XCTAssertEqual(result.warnings.count, 1)
+        XCTAssertTrue(result.warnings[0].contains("mystery"))
+        XCTAssertTrue(result.warnings[0].contains("fly_to_moon") ||
+                      result.warnings[0].contains("unknown"))
+    }
 }

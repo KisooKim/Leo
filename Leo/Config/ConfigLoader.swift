@@ -38,9 +38,10 @@ final class ConfigLoader {
 
         let data = try Data(contentsOf: fileURL)
         let envelope = try decoder.decode(RawEnvelope.self, from: data)
+        let rawActions = envelope.actions ?? []
 
         var validActions: [Action] = []
-        for (index, rawAction) in envelope.actions.enumerated() {
+        for (index, rawAction) in rawActions.enumerated() {
             do {
                 let action = try rawAction.toAction()
                 try action.validate()
@@ -57,7 +58,7 @@ final class ConfigLoader {
 
 // Intermediate representation so that a single malformed entry doesn't sink the whole file.
 private struct RawEnvelope: Decodable {
-    let actions: [RawAction]
+    let actions: [RawAction]?
 }
 
 private struct RawAction: Decodable {
@@ -80,14 +81,16 @@ private struct RawAction: Decodable {
     }
 
     func toAction() throws -> Action {
-        guard let keyword, let title, let typeString = type,
-              let type = ActionType(rawValue: typeString) else {
-            throw ConfigLoaderError.missingRequiredField
+        guard let keyword else { throw ConfigLoaderError.missingField("keyword") }
+        guard let title else { throw ConfigLoaderError.missingField("title") }
+        guard let typeString = type else { throw ConfigLoaderError.missingField("type") }
+        guard let actionType = ActionType(rawValue: typeString) else {
+            throw ConfigLoaderError.unknownType(typeString)
         }
         return Action(
             keyword: keyword,
             title: title,
-            type: type,
+            type: actionType,
             path: path,
             command: command,
             urlTemplate: urlTemplate,
@@ -96,6 +99,16 @@ private struct RawAction: Decodable {
     }
 }
 
-enum ConfigLoaderError: Error {
-    case missingRequiredField
+private enum ConfigLoaderError: Error, CustomStringConvertible {
+    case missingField(String)
+    case unknownType(String)
+
+    var description: String {
+        switch self {
+        case .missingField(let name):
+            return "missing required field '\(name)'"
+        case .unknownType(let value):
+            return "unknown action type '\(value)'"
+        }
+    }
 }
