@@ -8,9 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		166BD26C289EAE0B4FD461C5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3A9241B5D63D068707EF09 /* AppDelegate.swift */; };
-		4A59940D4E46E4EBB94C7E2F /* SmokeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE0D8FE5E6E6BCB586CD99F0 /* SmokeTest.swift */; };
 		801041A923BEA9B944E9EEB7 /* LeoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B89F00E16FD6E844CC70D5A /* LeoApp.swift */; };
 		929ACF5783DFA6EEC13FB3CF /* HotKey in Frameworks */ = {isa = PBXBuildFile; productRef = 4B6A0AD02B5A7426A1595561 /* HotKey */; };
+		96B3DB29910F4EFD3EA04C4F /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3CDFC03B9EBBAB10E10A48 /* Action.swift */; };
+		BA4ED5E83D9AAB2BEAD938BC /* ActionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A98C1BCEB60DE884E57FE7 /* ActionTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,9 +28,10 @@
 		1A4E6B31F92DE3F7B7083BE5 /* Leo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Leo.entitlements; sourceTree = "<group>"; };
 		5110F32209D0D9E2AAFE59CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		6B48EC9D98C80D8F978F2F0A /* LeoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LeoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B3CDFC03B9EBBAB10E10A48 /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		9B89F00E16FD6E844CC70D5A /* LeoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeoApp.swift; sourceTree = "<group>"; };
+		A7A98C1BCEB60DE884E57FE7 /* ActionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionTests.swift; sourceTree = "<group>"; };
 		D1A1F7D0633E46F1B7A239E2 /* Leo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Leo.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		DE0D8FE5E6E6BCB586CD99F0 /* SmokeTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmokeTest.swift; sourceTree = "<group>"; };
 		EC3A9241B5D63D068707EF09 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -48,7 +50,7 @@
 		424D8050B0C0D04486A095AF /* LeoTests */ = {
 			isa = PBXGroup;
 			children = (
-				DE0D8FE5E6E6BCB586CD99F0 /* SmokeTest.swift */,
+				A7A98C1BCEB60DE884E57FE7 /* ActionTests.swift */,
 			);
 			path = LeoTests;
 			sourceTree = "<group>";
@@ -69,6 +71,7 @@
 				5110F32209D0D9E2AAFE59CB /* Info.plist */,
 				1A4E6B31F92DE3F7B7083BE5 /* Leo.entitlements */,
 				9B89F00E16FD6E844CC70D5A /* LeoApp.swift */,
+				F26E71E78F265D9B709E6268 /* Config */,
 			);
 			path = Leo;
 			sourceTree = "<group>";
@@ -80,6 +83,14 @@
 				6B48EC9D98C80D8F978F2F0A /* LeoTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		F26E71E78F265D9B709E6268 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				8B3CDFC03B9EBBAB10E10A48 /* Action.swift */,
+			);
+			path = Config;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -164,7 +175,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4A59940D4E46E4EBB94C7E2F /* SmokeTest.swift in Sources */,
+				BA4ED5E83D9AAB2BEAD938BC /* ActionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -172,6 +183,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				96B3DB29910F4EFD3EA04C4F /* Action.swift in Sources */,
 				166BD26C289EAE0B4FD461C5 /* AppDelegate.swift in Sources */,
 				801041A923BEA9B944E9EEB7 /* LeoApp.swift in Sources */,
 			);
