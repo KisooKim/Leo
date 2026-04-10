@@ -11,6 +11,8 @@
 		801041A923BEA9B944E9EEB7 /* LeoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B89F00E16FD6E844CC70D5A /* LeoApp.swift */; };
 		929ACF5783DFA6EEC13FB3CF /* HotKey in Frameworks */ = {isa = PBXBuildFile; productRef = 4B6A0AD02B5A7426A1595561 /* HotKey */; };
 		96B3DB29910F4EFD3EA04C4F /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3CDFC03B9EBBAB10E10A48 /* Action.swift */; };
+		9B1275076EDFF23F52501C6A /* ConfigLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55881793340B00F201D0E502 /* ConfigLoader.swift */; };
+		B3558767F67B9B4BB3162866 /* ConfigLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11FF33D7D02F3FE036F9A8B0 /* ConfigLoaderTests.swift */; };
 		BA4ED5E83D9AAB2BEAD938BC /* ActionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A98C1BCEB60DE884E57FE7 /* ActionTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -25,8 +27,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		11FF33D7D02F3FE036F9A8B0 /* ConfigLoaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigLoaderTests.swift; sourceTree = "<group>"; };
 		1A4E6B31F92DE3F7B7083BE5 /* Leo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Leo.entitlements; sourceTree = "<group>"; };
 		5110F32209D0D9E2AAFE59CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		55881793340B00F201D0E502 /* ConfigLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigLoader.swift; sourceTree = "<group>"; };
 		6B48EC9D98C80D8F978F2F0A /* LeoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LeoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B3CDFC03B9EBBAB10E10A48 /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		9B89F00E16FD6E844CC70D5A /* LeoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeoApp.swift; sourceTree = "<group>"; };
@@ -51,6 +55,7 @@
 			isa = PBXGroup;
 			children = (
 				A7A98C1BCEB60DE884E57FE7 /* ActionTests.swift */,
+				11FF33D7D02F3FE036F9A8B0 /* ConfigLoaderTests.swift */,
 			);
 			path = LeoTests;
 			sourceTree = "<group>";
@@ -89,6 +94,7 @@
 			isa = PBXGroup;
 			children = (
 				8B3CDFC03B9EBBAB10E10A48 /* Action.swift */,
+				55881793340B00F201D0E502 /* ConfigLoader.swift */,
 			);
 			path = Config;
 			sourceTree = "<group>";
@@ -176,6 +182,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BA4ED5E83D9AAB2BEAD938BC /* ActionTests.swift in Sources */,
+				B3558767F67B9B4BB3162866 /* ConfigLoaderTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -185,6 +192,7 @@
 			files = (
 				96B3DB29910F4EFD3EA04C4F /* Action.swift in Sources */,
 				166BD26C289EAE0B4FD461C5 /* AppDelegate.swift in Sources */,
+				9B1275076EDFF23F52501C6A /* ConfigLoader.swift in Sources */,
 				801041A923BEA9B944E9EEB7 /* LeoApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
