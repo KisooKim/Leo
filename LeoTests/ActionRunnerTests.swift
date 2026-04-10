@@ -98,9 +98,8 @@ final class ActionRunnerTests: XCTestCase {
         try runner.run(action, argument: "cat & dog")
 
         XCTAssertEqual(opener.openedURLs.count, 1)
-        let opened = opener.openedURLs[0].absoluteString
-        XCTAssertTrue(opened.contains("cat%20%26%20dog") || opened.contains("cat+%26+dog"),
-                      "got \(opened)")
+        XCTAssertEqual(opener.openedURLs[0].absoluteString,
+                       "https://google.com/?q=cat%20%26%20dog")
     }
 
     func test_webSearch_emptyArgument_withFallback_opensFallback() throws {
@@ -127,6 +126,35 @@ final class ActionRunnerTests: XCTestCase {
         try runner.run(action, argument: "")
 
         XCTAssertTrue(opener.openedURLs.isEmpty)
+    }
+
+    // MARK: - Error guards
+
+    func test_openFolder_missingPath_throws() {
+        let runner = ActionRunner(urlOpener: SpyURLOpener(), shellRunner: SpyShellRunner())
+        let action = Action(keyword: "x", title: "X", type: .openFolder,
+                            path: nil, command: nil, urlTemplate: nil, fallbackURL: nil)
+        XCTAssertThrowsError(try runner.run(action, argument: nil)) { error in
+            XCTAssertEqual(error as? ActionRunnerError, .missingPath)
+        }
+    }
+
+    func test_runBash_missingCommand_throws() {
+        let runner = ActionRunner(urlOpener: SpyURLOpener(), shellRunner: SpyShellRunner())
+        let action = Action(keyword: "x", title: "X", type: .runBash,
+                            path: nil, command: nil, urlTemplate: nil, fallbackURL: nil)
+        XCTAssertThrowsError(try runner.run(action, argument: nil)) { error in
+            XCTAssertEqual(error as? ActionRunnerError, .missingCommand)
+        }
+    }
+
+    func test_webSearch_missingTemplate_throws() {
+        let runner = ActionRunner(urlOpener: SpyURLOpener(), shellRunner: SpyShellRunner())
+        let action = Action(keyword: "x", title: "X", type: .webSearch,
+                            path: nil, command: nil, urlTemplate: nil, fallbackURL: nil)
+        XCTAssertThrowsError(try runner.run(action, argument: "query")) { error in
+            XCTAssertEqual(error as? ActionRunnerError, .missingURLTemplate)
+        }
     }
 
     func test_webSearch_nilArgument_treatedAsEmpty() throws {

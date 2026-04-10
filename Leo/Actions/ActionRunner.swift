@@ -98,6 +98,9 @@ final class ActionRunner {
         // Encode so &, +, =, ?, # in the argument don't corrupt the query string.
         var allowed = CharacterSet.urlQueryAllowed
         allowed.remove(charactersIn: "&+=?#")
+        // addingPercentEncoding returns nil only for malformed UTF-16 (lone surrogates).
+        // This is unreachable in practice from user-typed text, but the guard stays
+        // for defensive correctness.
         guard let encoded = trimmed.addingPercentEncoding(withAllowedCharacters: allowed) else {
             throw ActionRunnerError.encodingFailed
         }
