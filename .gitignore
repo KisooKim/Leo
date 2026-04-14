@@ -21,3 +21,18 @@ Leo/Info.plist
 .env
 *.p12
 ExportOptions.plist
+
+# === Claude/session instruction files (auto-added) ===
+CLAUDE.md
+CLAUDE.local.md
+AGENTS.md
+GEMINI.md
+TODO.md
+DECISIONS.md
+STATUS.md
+LESSONS.md
+SESSION.md
+SESSION_*.md
+.claude/
+.claude-memory/
+session md/
